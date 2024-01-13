@@ -79,24 +79,24 @@ class {{ class_name }}:
 
 {% macro _transform_property(property, content, multipart=False) %}
 {% import "property_templates/" + property.template as prop_template %}
-{%- if prop_template.transform -%}
+{% if prop_template.transform %}
 {{ prop_template.transform(property, content, property.python_name, multipart=multipart) }}
-{%- elif multipart -%}
+{% elif multipart %}
 {{ property.python_name }} = {{ content }} if isinstance({{ content }}, Unset) else (None, str({{ content }}).encode(), "text/plain")
-{%- else -%}
+{% else %}
 {{ property.python_name }} = {{ content }}
-{%- endif -%}
+{% endif %}
 
-{%- endmacro -%}
+{% endmacro %}
 
 {% macro _prepare_field_dict(multipart=False) %}
 field_dict: Dict[str, Any] = {}
 {% if model.additional_properties %}
-{%- if model.additional_properties.template -%}{# Can be a bool instead of an object #}
-    {%- import "property_templates/" + model.additional_properties.template as prop_template -%}
-{%- else -%}
-    {%- set prop_template = None -%}
-{%- endif -%}
+{% if model.additional_properties.template %}{# Can be a bool instead of an object #}
+    {% import "property_templates/" + model.additional_properties.template as prop_template %}
+{% else %}
+    {% set prop_template = None %}
+{% endif %}
 {% if prop_template and prop_template.transform %}
 for prop_name, prop in self.additional_properties.items():
     {{ prop_template.transform(model.additional_properties, "prop", "field_dict[prop_name]", multipart=multipart, declare_type=false) | indent(4) }}
