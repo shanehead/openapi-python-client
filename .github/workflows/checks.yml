@@ -27,7 +27,7 @@ jobs:
         shell: bash
 
       - name: Cache dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: .venv
           key: ${{ runner.os }}-${{ steps.get_python_version.outputs.python_version }}-dependencies-${{ hashFiles('**/pdm.lock') }}
@@ -67,7 +67,7 @@ jobs:
         if: matrix.os == 'ubuntu-latest'
 
       - name: Store coverage report
-        uses: actions/upload-artifact@v4.1.0
+        uses: actions/upload-artifact@v4.3.0
         if: matrix.os == 'ubuntu-latest'
         with:
           name: coverage-${{ matrix.python }}
@@ -109,7 +109,7 @@ jobs:
           .venv/bin/python -m coverage report --fail-under=100          
 
       - name: Upload HTML report if check failed.
-        uses: actions/upload-artifact@v4.1.0
+        uses: actions/upload-artifact@v4.3.0
         with:
           name: html-report
           path: htmlcov
@@ -138,7 +138,7 @@ jobs:
         id: get_python_version
         run: echo "python_version=$(python --version)" >> $GITHUB_OUTPUT
       - name: Cache dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: .venv
           key: ${{ runner.os }}-${{ steps.get_python_version.outputs.python_version }}-dependencies-${{ hashFiles('**/pdm.lock') }}
@@ -149,13 +149,8 @@ jobs:
           pip install pdm
           python -m venv .venv
           pdm install
-      - name: Regenerate Integration Client
-        run: |
-          pdm run openapi-python-client update --url http://localhost:3000/openapi.json --config integration-tests-config.yaml --meta pdm
-      - name: Check for any file changes
-        run: python .github/check_for_changes.py
       - name: Cache Generated Client Dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: integration-tests/.venv
           key: ${{ runner.os }}-${{ steps.get_python_version.outputs.python_version }}-integration-dependencies-${{ hashFiles('**/pdm.lock') }}

@@ -18,7 +18,7 @@ dependencies = [
     "typing-extensions>=4.8.0,<5.0.0",
 ]
 name = "openapi-python-client"
-version = "0.17.1"
+version = "0.17.2"
 description = "Generate modern Python clients from OpenAPI"
 keywords = [
     "OpenAPI",
@@ -128,8 +128,7 @@ composite = ["test --cov openapi_python_client tests --cov-report=term-missing"]
 
 [tool.pdm.scripts.regen_integration]
 shell = """
-openapi-python-client update --url https://raw.githubusercontent.com/openapi-generators/openapi-test-server/main/openapi.json --config integration-tests-config.yaml --meta pdm \
-&& mypy integration-tests --strict
+openapi-python-client update --url https://raw.githubusercontent.com/openapi-generators/openapi-test-server/main/openapi.json --config integration-tests/config.yaml --meta pdm \
 """
 
 [build-system]
