@@ -5,7 +5,7 @@ description = "A client library for accessing OpenAPI Test Server"
 authors = []
 readme = "README.md"
 dependencies = [
-    "httpx>=0.20.0,<0.27.0",
+    "httpx>=0.20.0,<0.28.0",
     "attrs>=21.3.0",
     "python-dateutil>=2.8.0",
 ]
@@ -14,16 +14,19 @@ requires-python = ">=3.8,<4.0"
 [tool.pdm]
 package-type = "library"
 
+[tool.pdm.dev-dependencies]
+dev = [
+    "pytest",
+    "mypy",
+    "pytest-asyncio>=0.23.5",
+]
+
 [build-system]
 requires = ["pdm-backend"]
 build-backend = "pdm.backend"
  
 [tool.ruff]
-select = ["F", "I"]
 line-length = 120
 
-[tool.pdm.dev-dependencies]
-dev = [
-    "pytest",
-    "mypy",
-]
+[tool.ruff.lint]
+select = ["F", "I"]

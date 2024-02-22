@@ -19,8 +19,6 @@ class ModelWithPrimitiveAdditionalPropertiesADateHolder:
         for prop_name, prop in self.additional_properties.items():
             field_dict[prop_name] = prop.isoformat()
 
-        field_dict.update({})
-
         return field_dict
 
     @classmethod

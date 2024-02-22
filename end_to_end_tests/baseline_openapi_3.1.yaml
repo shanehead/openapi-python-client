@@ -1456,6 +1456,50 @@ info:
       }
     }
   },
+  "/naming/mixed-case": {
+    "get": {
+      "tags": [ "naming" ],
+      "operationId": "mixed_case",
+      "parameters": [
+        {
+          "name": "mixed_case",
+          "in": "query",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "mixedCase",
+          "in": "query",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Successful response",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "mixed_case": {
+                    "type": "string"
+                  },
+                  "mixedCase": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
   "/parameter-references/{path_param}": {
     "get": {
       "tags": [
@@ -2592,6 +2636,55 @@ info:
     "ModelWithBackslashInDescription": {
       "type": "object",
       "description": "Description with special character: \\"
+    },
+    "ModelWithDiscriminatedUnion": {
+      "type": "object",
+      "properties": {
+        "discriminated_union": {
+          "oneOf": [
+            {
+              "$ref": "#/components/schemas/ADiscriminatedUnion"
+            },
+            {
+              "type": "null"
+            }
+          ],
+        }
+      }
+    },
+    "ADiscriminatedUnion": {
+      "type": "object",
+      "discriminator": {
+        "propertyName": "modelType",
+        "mapping": {
+          "type1": "#/components/schemas/ADiscriminatedUnionType1",
+          "type2": "#/components/schemas/ADiscriminatedUnionType2"
+        }
+      },
+      "oneOf": [
+        {
+          "$ref": "#/components/schemas/ADiscriminatedUnionType1"
+        },
+        {
+          "$ref": "#/components/schemas/ADiscriminatedUnionType2"
+        }
+      ]
+    },
+    "ADiscriminatedUnionType1": {
+      "type": "object",
+      "properties": {
+        "modelType": {
+          "type": "string"
+        }
+      }
+    },
+    "ADiscriminatedUnionType2": {
+      "type": "object",
+      "properties": {
+        "modelType": {
+          "type": "string"
+        }
+      }
     }
   },
   "parameters": {

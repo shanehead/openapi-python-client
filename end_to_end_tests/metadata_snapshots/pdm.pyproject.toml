@@ -6,7 +6,7 @@ authors = []
 readme = "README.md"
 requires-python = ">=3.8,<4.0"
 dependencies = [
-    "httpx>=0.20.0,<0.27.0",
+    "httpx>=0.20.0,<0.28.0",
     "attrs>=21.3.0",
     "python-dateutil>=2.8.0",
 ]
@@ -19,5 +19,7 @@ requires = ["pdm-backend"]
 build-backend = "pdm.backend"
 
 [tool.ruff]
-select = ["F", "I", "UP"]
 line-length = 120
+
+[tool.ruff.lint]
+select = ["F", "I", "UP"]
